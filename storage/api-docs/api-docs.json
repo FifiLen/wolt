@@ -1,0 +1,463 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Wolt API",
+        "description": "API documentation for the Wolt-like application",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Local API server"
+        }
+    ],
+    "paths": {
+        "/orders": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create a new order",
+                "description": "Create an order for a restaurant",
+                "operationId": "createOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "session_id": {
+                                        "type": "string",
+                                        "example": "user-session-12345"
+                                    },
+                                    "restaurant_id": {
+                                        "type": "string",
+                                        "example": "677993288fbedfb0b45059fd"
+                                    },
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "menu_item_id": {
+                                                    "type": "string",
+                                                    "example": "Kanapka Norweska"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Restaurant not found"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get order details",
+                "description": "Fetch details of an existing order by ID",
+                "operationId": "getOrderDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update order status",
+                "description": "Update the status of an existing order",
+                "operationId": "updateOrderStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "example": "confirmed"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Cancel an order",
+                "description": "Cancel an existing order by ID",
+                "operationId": "cancelOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order cancelled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    }
+                }
+            }
+        },
+        "/restaurants": {
+            "get": {
+                "tags": [
+                    "Restaurants"
+                ],
+                "summary": "Get all restaurants for a specific city",
+                "description": "Retrieve a list of restaurants filtered by city.",
+                "operationId": "9be0234c1996e28d5baca080ddd45af6",
+                "parameters": [
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "The city to filter restaurants by",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of restaurants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Restaurant ID",
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "description": "Restaurant name",
+                                                "type": "string"
+                                            },
+                                            "address": {
+                                                "description": "Restaurant address",
+                                                "type": "string"
+                                            },
+                                            "city": {
+                                                "description": "City of the restaurant",
+                                                "type": "string"
+                                            },
+                                            "image": {
+                                                "description": "Image URL",
+                                                "type": "string"
+                                            },
+                                            "ranking": {
+                                                "description": "Restaurant ranking",
+                                                "type": "integer"
+                                            },
+                                            "created_at": {
+                                                "description": "Creation timestamp",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "updated_at": {
+                                                "description": "Update timestamp",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "City is required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "City is required"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/restaurants/{id}/menu": {
+            "get": {
+                "tags": [
+                    "Restaurants"
+                ],
+                "summary": "Get menu for a specific restaurant",
+                "description": "Retrieve the menu of a specific restaurant by its ID.",
+                "operationId": "7928df212aee9040b7c5f57a89cb2ab3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the restaurant",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restaurant menu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "description": "Restaurant name",
+                                            "type": "string"
+                                        },
+                                        "menu": {
+                                            "description": "Menu items",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "title": {
+                                                        "description": "Category title",
+                                                        "type": "string"
+                                                    },
+                                                    "items": {
+                                                        "description": "Items in the category",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "name": {
+                                                                    "description": "Item name",
+                                                                    "type": "string"
+                                                                },
+                                                                "price": {
+                                                                    "description": "Item price",
+                                                                    "type": "string"
+                                                                },
+                                                                "photoUrl": {
+                                                                    "description": "Item photo URL",
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Restaurant not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Restaurant not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Order": {
+                "properties": {
+                    "id": {
+                        "description": "Order ID",
+                        "type": "string"
+                    },
+                    "session_id": {
+                        "description": "Session ID",
+                        "type": "string"
+                    },
+                    "restaurant_id": {
+                        "description": "Restaurant ID",
+                        "type": "string"
+                    },
+                    "items": {
+                        "description": "Ordered items",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "menu_item_id": {
+                                    "description": "Menu item ID",
+                                    "type": "string"
+                                },
+                                "quantity": {
+                                    "description": "Quantity ordered",
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "total_price": {
+                        "description": "Total price of the order",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "status": {
+                        "description": "Order status",
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "confirmed",
+                            "completed",
+                            "cancelled"
+                        ]
+                    },
+                    "created_at": {
+                        "description": "Order creation time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Order last update time",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Orders",
+            "description": "Orders"
+        },
+        {
+            "name": "Restaurants",
+            "description": "Restaurants"
+        }
+    ]
+}

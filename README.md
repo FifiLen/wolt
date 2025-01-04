@@ -1,6 +1,62 @@
 <<<<<<< HEAD
 # wolt
 projekt na studia (PHP)
+
+## Features
+
+- **Manage Restaurants**:
+    - View a list of restaurants filtered by city.
+    - Access restaurant menus.
+
+- **Order Management**:
+    - Create, view, update, and cancel orders.
+
+- **Swagger API Documentation**:
+    - Comprehensive API documentation available via Swagger UI.
+
+---
+
+## MongoDB Setup
+
+1. **Database and Collections**:
+    - The project requires the following MongoDB collections:
+        - `restaurants` - Stores restaurant details and their menus.
+        - `orders` - Stores orders placed by users.
+
+2. **Sample Data Import**:
+    - A sample dataset for the `restaurants` collection is available in the `restaurant.json` file located in the project root directory.
+    - Import the data using the following command:
+
+      ```bash
+      mongoimport --db your_database_name --collection restaurants --file restaurant.json --jsonArray
+      ```
+
+---
+
+## API Documentation
+
+### Swagger UI
+
+The API is documented using Swagger and can be accessed in your browser:
+
+- **Local Development**: [http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+- **Production**: Replace `localhost:8000` with your production URL.
+
+To regenerate Swagger documentation:
+
+```bash
+php artisan l5-swagger:generate
+```
+
+
+### env 
+Please create and fill the .env file based on .env example 
+use 
+```bash
+php artisan key:generate
+```
+to generate the APP_KEY
+
 =======
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
