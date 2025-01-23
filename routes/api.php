@@ -2,21 +2,28 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AuthController;
 
-// Get all restaurants for a specific city (without menus)
+// Restaurant Routes
 Route::get('/restaurants', [RestaurantController::class, 'getRestaurantsByCity']);
-
-// Get menu for a specific restaurant by ID
 Route::get('/restaurants/{id}/menu', [RestaurantController::class, 'getMenuByRestaurantId']);
 
-// Create an order
-Route::post('/orders', [OrderController::class, 'create']);
+// Order Routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/orders', [OrderController::class, 'create']); // Create an order (requires login)
+    Route::get('/orders/{id}', [OrderController::class, 'show']); // Get order details
+    Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus']); // Update order status
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy']); // Cancel an order
+});
 
-// Get order details
-Route::get('/orders/{id}', [OrderController::class, 'show']);
+// Authentication Routes
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-// Update order status
-Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+Route::fallback(function () {
+    return response()->json(['message' => 'Route not found'], 404);
+});
 
-// Cancel an order
-Route::delete('/orders/{id}', [OrderController::class, 'destroy']);

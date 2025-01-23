@@ -15,6 +15,7 @@ class OrderController extends Controller
      *     tags={"Orders"},
      *     summary="Create a new order",
      *     description="Create an order for a restaurant",
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -86,6 +87,7 @@ class OrderController extends Controller
      *     tags={"Orders"},
      *     summary="Get order details",
      *     description="Fetch details of an existing order by ID",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -112,12 +114,13 @@ class OrderController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Get(
      *     path="/orders/{id}",
-     *     operationId="updateOrderStatus",
+     *     operationId="getOrderDetails",
      *     tags={"Orders"},
-     *     summary="Update order status",
-     *     description="Update the status of an existing order",
+     *     summary="Get order details",
+     *     description="Fetch details of an existing order by ID",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -125,20 +128,12 @@ class OrderController extends Controller
      *         @OA\Schema(type="string"),
      *         description="Order ID"
      *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="status", type="string", example="confirmed")
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Order status updated successfully",
-     *         @OA\JsonContent(type="object", @OA\Property(property="message", type="string"))
+     *         description="Order details retrieved successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Order")
      *     ),
-     *     @OA\Response(response=404, description="Order not found"),
-     *     @OA\Response(response=400, description="Validation error")
+     *     @OA\Response(response=404, description="Order not found")
      * )
      */
     public function updateStatus(Request $request, $id): \Illuminate\Http\JsonResponse
@@ -167,6 +162,7 @@ class OrderController extends Controller
      *     tags={"Orders"},
      *     summary="Cancel an order",
      *     description="Cancel an existing order by ID",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
