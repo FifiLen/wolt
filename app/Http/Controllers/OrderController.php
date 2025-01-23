@@ -114,12 +114,12 @@ class OrderController extends Controller
     }
 
     /**
-     * @OA\Get(
+     * @OA\Put(
      *     path="/orders/{id}",
-     *     operationId="getOrderDetails",
+     *     operationId="updateOrderStatus",
      *     tags={"Orders"},
-     *     summary="Get order details",
-     *     description="Fetch details of an existing order by ID",
+     *     summary="Update order status",
+     *     description="Update the status of an existing order",
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
@@ -128,14 +128,23 @@ class OrderController extends Controller
      *         @OA\Schema(type="string"),
      *         description="Order ID"
      *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="confirmed")
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Order details retrieved successfully",
-     *         @OA\JsonContent(ref="#/components/schemas/Order")
+     *         description="Order status updated successfully",
+     *         @OA\JsonContent(type="object", @OA\Property(property="message", type="string"))
      *     ),
-     *     @OA\Response(response=404, description="Order not found")
+     *     @OA\Response(response=404, description="Order not found"),
+     *     @OA\Response(response=400, description="Validation error")
      * )
      */
+
     public function updateStatus(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $validated = $request->validate([

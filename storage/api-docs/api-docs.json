@@ -327,7 +327,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/orders/{id}": {
@@ -363,7 +368,12 @@
                     "404": {
                         "description": "Order not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -421,7 +431,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -460,7 +475,12 @@
                     "404": {
                         "description": "Order not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/restaurants": {
@@ -698,6 +718,114 @@
                         "description": "Order last update time",
                         "type": "string",
                         "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "User's full name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "User's email address",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Account creation time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Last account update time",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Restaurant": {
+                "properties": {
+                    "id": {
+                        "description": "Restaurant ID",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Restaurant name",
+                        "type": "string"
+                    },
+                    "address": {
+                        "description": "Restaurant address",
+                        "type": "string"
+                    },
+                    "city": {
+                        "description": "City where the restaurant is located",
+                        "type": "string"
+                    },
+                    "image": {
+                        "description": "Restaurant image URL",
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "ranking": {
+                        "description": "Restaurant ranking",
+                        "type": "integer"
+                    },
+                    "menu": {
+                        "description": "Restaurant menu sections",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Menu"
+                        }
+                    },
+                    "created_at": {
+                        "description": "Restaurant creation time",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Restaurant last update time",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Menu": {
+                "properties": {
+                    "title": {
+                        "description": "Menu section title",
+                        "type": "string"
+                    },
+                    "items": {
+                        "description": "List of menu items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MenuItem"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "MenuItem": {
+                "properties": {
+                    "name": {
+                        "description": "Menu item name",
+                        "type": "string"
+                    },
+                    "price": {
+                        "description": "Menu item price",
+                        "type": "string"
+                    },
+                    "photoUrl": {
+                        "description": "Menu item image URL",
+                        "type": "string",
+                        "format": "url"
                     }
                 },
                 "type": "object"
