@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use MongoDB\Client;
+use Illuminate\Http\JsonResponse;
+
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
@@ -48,6 +51,20 @@ class RestaurantController extends Controller
      *     )
      * )
      */
+
+
+    // Pobiera liste miast
+    public function getAllCities(): JsonResponse
+    {
+        $client = new Client(env('MONGO_DSN', 'mongodb://127.0.0.1:27017'));
+        $collection = $client->selectDatabase(env('DB_DATABASE', 'your_database'))->selectCollection('restaurants');
+        $cities = $collection->distinct('city');
+        return response()->json(array_values(array_filter($cities)));
+    }
+
+
+
+
     public function getRestaurantsByCity(Request $request): \Illuminate\Http\JsonResponse
     {
         $city = $request->query('city');
@@ -114,6 +131,9 @@ class RestaurantController extends Controller
      *     )
      * )
      */
+
+
+
     public function getMenuByRestaurantId($id): \Illuminate\Http\JsonResponse
     {
         // Find the restaurant by MongoDB ObjectId

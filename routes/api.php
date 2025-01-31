@@ -7,6 +7,10 @@ use App\Http\Controllers\AuthController;
 // Restaurant Routes
 Route::get('/restaurants', [RestaurantController::class, 'getRestaurantsByCity']);
 Route::get('/restaurants/{id}/menu', [RestaurantController::class, 'getMenuByRestaurantId']);
+Route::get('/restaurants/cities', [RestaurantController::class, 'getAllCities']);
+Route::get('/{city}', [RestaurantController::class, 'getRestaurantsByCity']);
+
+
 
 // Order Routes
 Route::middleware('auth:sanctum')->group(function () {
